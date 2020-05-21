@@ -1,0 +1,11 @@
+---
+- version: v1
+  group: com.poc.persistent
+  kind: MySql
+  role: /opt/ansible/roles/mysql
+
+- version: v1
+  group: com.poc.persistent
+  kind: Flask
+  role: /opt/ansible/roles/flask
+
