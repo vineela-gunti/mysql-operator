@@ -2,7 +2,7 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: mysql-pv-vol
-  namespace: flask
+  namespace: mysql
   labels:
     type: local
     app: mysql
@@ -20,7 +20,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: mysql-pvc-vol
-  namespace: flask
+  namespace: mysql
   labels:
     type: local
     app: mysql
