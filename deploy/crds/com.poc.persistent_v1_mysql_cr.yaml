@@ -4,5 +4,5 @@ metadata:
   name: example-mysql
 spec:
   # Add fields here
-  image: mysql
+  image: mysql:8
   size: 1
