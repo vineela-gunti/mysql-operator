@@ -1,0 +1,71 @@
+---
+- name: flask
+  k8s:
+    definition:
+      kind: StatefulSet
+      apiVersion: apps/v1
+      metadata:
+        name: flask
+        namespace: '{{ meta.namespace }}'
+      spec:
+        replicas: "{{size}}"
+        selector:
+          matchLabels:
+            app: flask
+        template:
+          metadata:
+            labels:
+              app: flask
+          spec:
+            containers:
+            - name: flask
+              image: "{{image}}"
+              ports:
+              - containerPort: 5000
+              env:
+                - name: MYSQL_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: mysql-secret
+                      key: MYSQL_USER
+                - name: MYSQL_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mysql-secret
+                      key: MYSQL_PASSWORD
+                - name: MYSQL_ROOT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mysql-secret
+                      key: MYSQL_ROOT_PASSWORD
+                - name: SERVICE_NAME
+                  value: "{{service_name}}"
+              envFrom:
+                - configMapRef:
+                    name: mysql-cm
+              volumeMounts:
+              - name: flask-data
+                mountPath: "/var/lib/flask/data"
+            volumes:
+            - name: flask-data
+              persistentVolumeClaim:
+                claimName: flask-vol-pvc
+- name: Create the  service
+  k8s:
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: flask
+        namespace: '{{ meta.namespace }}'
+        labels:
+          app: flask
+      spec:
+        ports:
+        - name: flask
+          port: 5000
+          protocol: TCP
+          targetPort: 5000
+        selector:
+          app: flask
+
