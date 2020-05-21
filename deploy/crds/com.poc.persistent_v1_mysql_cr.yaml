@@ -1,0 +1,8 @@
+apiVersion: com.poc.persistent/v1
+kind: MySql
+metadata:
+  name: example-mysql
+spec:
+  # Add fields here
+  image: mysql
+  size: 1

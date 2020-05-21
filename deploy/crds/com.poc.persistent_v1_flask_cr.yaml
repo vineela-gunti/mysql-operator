@@ -1,0 +1,9 @@
+apiVersion: com.poc.persistent/v1
+kind: Flask
+metadata:
+  name: example-flask
+spec:
+  # Add fields here
+  image: bandianilkumar07/flask:1.0
+  size: 1
+  serviceName: mysql-service.mysql.svc.cluster.local
